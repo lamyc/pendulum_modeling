@@ -4,7 +4,8 @@ import sys, os
 import traceback
 from tqdm import tqdm
 
-def read_serial(elapsed_time, num_measurements, port_path, dir_path, baud=9600, timeout=1):
+def read_serial(elapsed_time, num_measurements, port_path, dir_path, baud=9600,
+        timeout=1, index_start=0):
     '''
     Read serial data for an given time from Arduino and export to a tsv.
 
@@ -26,7 +27,7 @@ def read_serial(elapsed_time, num_measurements, port_path, dir_path, baud=9600, 
         os.makedirs(dir_path)
 
     for i in tqdm(range(num_measurements)):
-        file_path = os.path.join(dir_path, 'trial%d.tsv'%i)
+        file_path = os.path.join(dir_path, 'trial%d.tsv'%(i + index_start))
         try:
             mytsv = open(file_path, 'w')
         except IOError:
@@ -39,7 +40,7 @@ def read_serial(elapsed_time, num_measurements, port_path, dir_path, baud=9600, 
         if timeout is None:
             raise Exception('timeout must be specified.')
 
-        print('starting trial %d...'%i)
+        print('starting trial %d...'%(i + index_start))
         start = time.perf_counter()
         with serial.Serial(port_path, baud, timeout=timeout) as ser:
             while (time.perf_counter() - start < elapsed_time):
@@ -69,5 +70,6 @@ def monitor(port_path, baud=9600, timeout=1):
             print(line.decode('UTF-8'), end='')
 
 if __name__=="__main__":
-    read_serial(200, 20, "/dev/ttyS4", "measurements")
+    read_serial(1200, 30, "/dev/ttyACM0", "measurements")
     # monitor("/dev/ttyS4")
+    pass

@@ -21,6 +21,7 @@ float x, y, z;
 int degreesX = 0;
 int degreesY = 0;
 int degreesZ = 0;
+unsigned long NewTime, OldTime, exact;
 
 void setup() {
   Serial.begin(9600);
@@ -37,20 +38,25 @@ void setup() {
   Serial.println("Hz");
   Serial.println();
   Serial.println("Acceleration in G's");
-  Serial.println("X\tY\tZ");
+  Serial.println("Time\tX\tY\tZ");
+  OldTime = millis();
 }
 
 void loop() {
-
-  if (IMU.accelerationAvailable()) {
-    IMU.readAcceleration(x, y, z); //output x, y, z acceleration in terms of g.
-
-  }
+  NewTime = millis();
   
+  if (NewTime - OldTime >= 100) {
+    if (IMU.accelerationAvailable()) {
+      IMU.readAcceleration(x, y, z); //output x, y, z acceleration in terms of g.
+    }
+  exact = millis();
+  Serial.print(exact);
+  Serial.print('\t');
   Serial.print(x,8);
   Serial.print('\t');
   Serial.print(y,8);
   Serial.print('\t');
   Serial.println(z,8);
-  delay(100);
+  OldTime = NewTime;
+  }
 }
