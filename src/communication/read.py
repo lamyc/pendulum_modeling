@@ -68,6 +68,10 @@ def monitor(port_path, baud=9600, timeout=1):
             line = ser.readline()
             print(line.decode('UTF-8'), end='')
 
+        if timeout is None:
+            raise Exception('timeout must be specified.')
+
+
 if __name__=="__main__":
     read_serial(200, 20, "/dev/ttyS4", "nano_33/measurements/50Hz")
     # monitor("/dev/ttyS4")
