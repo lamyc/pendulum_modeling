@@ -39,7 +39,7 @@ def export_measurements(elapsed_time, num_measurements, port_path, dir_path, bau
         if timeout is None:
             raise Exception('timeout must be specified.')
 
-        print('starting trial %d...'%i)
+        print('starting trial (%d/%d)'%(i+1, num_measurements))
         start = time.perf_counter()
         with serial.Serial(port_path, baud, timeout=timeout) as ser:
             while (time.perf_counter() - start < elapsed_time):
@@ -69,5 +69,6 @@ def monitor(port_path, baud=9600, timeout=1):
             print(line.decode('UTF-8'), end='')
 
 if __name__=="__main__":
-    read_serial(200, 20, "/dev/ttyS4", "nano_33/measurements")
+    read_serial(200, 20, "/dev/ttyS4", "nano_33/measurements/50Hz")
     # monitor("/dev/ttyS4")
+    pass

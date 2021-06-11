@@ -45,7 +45,7 @@ void setup() {
 void loop() {
   NewTime = millis();
   
-  if (NewTime - OldTime >= 100) {
+  if (NewTime - OldTime >= 20) {
     if (IMU.accelerationAvailable()) {
       IMU.readAcceleration(x, y, z); //output x, y, z acceleration in terms of g.
     }
