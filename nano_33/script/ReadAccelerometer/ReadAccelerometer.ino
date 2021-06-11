@@ -15,7 +15,7 @@
   This example code is in the public domain.
 */
 
-#include <Arduino_LSM9DS1.h>
+#include "Arduino_LSM9DS1_mod.h"
 
 float x, y, z;
 int degreesX = 0;
@@ -32,7 +32,8 @@ void setup() {
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
-
+  IMU.setAccelerometerScale(0); // 0:2g, 1:4g, 2:8g, 3:16g
+  
   Serial.print("Accelerometer sample rate = ");
   Serial.print(IMU.accelerationSampleRate());
   Serial.println("Hz");
