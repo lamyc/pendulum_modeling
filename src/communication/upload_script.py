@@ -1,10 +1,25 @@
 import subprocess
 import os
+import pathlib
 
-def upload(file_path, port, timeout=1):
-    ret = subprocess.run(["arduino", "--upload", "--port", port, "-v", file_path],
-                         shell=True,
+def upload(file_path, port, timeout=60):
+    '''function to upload .ino script to chip within python
+    
+    Parameters:
+    ------------
+    file_path: string
+                absolute path or relative path of the script to be uploaded.
+                cwd is the path of this utility script.
+    port: string
+            usb port to connect to the arduino chip.
+    timeout: int, optional
+            timeout in seconds, default is 60.
+    '''
+
+    ret = subprocess.run(["arduino", "--upload", "--port", port, file_path],
+                         shell=False,
                          encoding="utf-8",
+                         cwd=pathlib.Path(__file__).parent.absolute(),
                          timeout=timeout)
 
     if ret.returncode == 0:
@@ -15,7 +30,7 @@ def upload(file_path, port, timeout=1):
 
 
 if __name__ == "__main__":
-    fpath = os.path.join("..", "..", "nano_33", "script", "ReadAccelerometer",
+    fpath = os.path.join("..","..", "nano_33", "script", "ReadAccelerometer",
             "ReadAccelerometer.ino")
-    upload(fpath, "/dev/ttyS4")
+    upload(fpath, "/dev/ttyACM0")
 
