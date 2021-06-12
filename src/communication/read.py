@@ -9,7 +9,7 @@ def export_measurements(
         dir_path,
         filename,
         port_path=get_nano_port(), 
-        baud=115200, 
+        baud=2_000_000, 
         timeout=1):
     '''
     Read serial data for an given time from Arduino and export to a tsv.
