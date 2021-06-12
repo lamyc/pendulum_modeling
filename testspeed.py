@@ -1,5 +1,5 @@
 import serial
-from adaptOS import get_nano_port
+from src.communication.adaptOS import get_nano_port
 import time
 
 script_path = os.path.join("nano", "script", "ReadAccelerometer", "ReadAccelerometer.ino")
