@@ -27,11 +27,11 @@ void setup() {
   Serial.begin(115200);
   while (!Serial);
 
-  if (!IMU.begin()) {
+  if (!IMU.begin(0)) // 0:2g, 1:4g, 2:8g, 3:16g, at 952Hz
+  { 
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
-  IMU.setAccelerometerScale(0); // 0:2g, 1:4g, 2:8g, 3:16g, at 952Hz
   
 }
 

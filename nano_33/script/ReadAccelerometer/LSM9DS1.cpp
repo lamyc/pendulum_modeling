@@ -47,7 +47,7 @@ LSM9DS1Class::~LSM9DS1Class()
 {
 }
 
-int LSM9DS1Class::begin()
+int LSM9DS1Class::begin(int scale)
 {
   _wire->begin();
 
@@ -70,7 +70,21 @@ int LSM9DS1Class::begin()
   }
 
   writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG1_G, 0x78); // 119 Hz, 2000 dps, 16 Hz BW
-  writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0x70); // 119 Hz, 4G
+
+  LSM9DS1Class::state = scale;
+  switch (scale) {
+      case 0:
+          writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xC0); // 952 Hz, 2G
+          break;
+      case 1:
+          writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xD0); // 952 Hz, 4G
+          break;
+      case 2:
+          writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xD8); // 952 Hz, 8G
+          break;
+      case 3:
+          writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xC8); // 952 Hz, 16G
+          break;
 
   writeRegister(LSM9DS1_ADDRESS_M, LSM9DS1_CTRL_REG1_M, 0xb4); // Temperature compensation enable, medium performance, 20 Hz
   writeRegister(LSM9DS1_ADDRESS_M, LSM9DS1_CTRL_REG2_M, 0x00); // 4 Gauss
@@ -108,20 +122,7 @@ void LSM9DS1Class::end()
 
 void LSM9DS1Class::setAccelerometerScale(int scale)
 {
-    LSM9DS1Class::state = scale;
-    switch (scale) {
-        case 0:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xC0); // 952 Hz, 2G
-            break;
-        case 1:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xD0); // 952 Hz, 4G
-            break;
-        case 2:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xD8); // 952 Hz, 8G
-            break;
-        case 3:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xC8); // 952 Hz, 16G
-            break;
+
     }
 
 }
@@ -178,7 +179,7 @@ int LSM9DS1Class::accelerationAvailable()
 
 float LSM9DS1Class::accelerationSampleRate()
 {
-  return 119.0F;
+  return 952.0F;
 }
 
 int LSM9DS1Class::readGyroscope(float& x, float& y, float& z)

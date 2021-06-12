@@ -30,6 +30,7 @@ def export_measurements(
     '''
     if not os.path.exists(port_path):
         raise IOError("Could not find the specified Arduino port")
+
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
@@ -80,6 +81,6 @@ def monitor(port_path, baud=115200, timeout=1):
 
 
 if __name__=="__main__":
-    export_measurements(60*60*8, "../../nano_33/measurements", "50Hz_2g.csv")
+    export_measurements(60*60, "nano_33/measurements", "952Hz_2g.csv")
     # monitor("/dev/ttyS4")
     pass

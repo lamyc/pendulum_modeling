@@ -25,7 +25,7 @@ class LSM9DS1Class {
     LSM9DS1Class(TwoWire& wire);
     virtual ~LSM9DS1Class();
 
-    int begin();
+    int begin(int scale);
     void end();
 
     // Controls whether a FIFO is continuously filled, or a single reading is stored.
