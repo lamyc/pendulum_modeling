@@ -19,7 +19,7 @@ def export_measurements(
     elapsed_time: float or int
                 elapsed time for reading the serial print, in seconds.
     dir_path: string
-                path to directory storing serial readings
+                path to directory storing serial readings.
     port_path: string, optional
                 path to the Arduino port, default to nano 33 ble port path.
     baud: int, optional
