@@ -57,14 +57,14 @@ def export_measurements(
     mycsv.close()
     print("data logged successfully.")
 
-def monitor(port_path, baud=115200, timeout=1):
+def monitor(port_path=get_nano_port(), baud=2_000_000, timeout=1):
     '''
     Read serial data indefinitely from Arduino device.
 
     Parameters
     ------------
-    port_path: string
-                path to the Arduino port.
+    port_path: string, optional
+                path to the Arduino port, default to nano 33 ble.
     baud: int, optional
                 baud rate of the serial communication.
     timeout: int, optional
