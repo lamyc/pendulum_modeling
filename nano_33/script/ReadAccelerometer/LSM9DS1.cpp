@@ -69,7 +69,7 @@ int LSM9DS1Class::begin(int scale)
     return 0;
   }
 
-  writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG1_G, 0x78); // 119 Hz, 2000 dps, 16 Hz BW
+  writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG1_G, 0b11000000); // 119 Hz, 2000 dps, 16 Hz BW
 
   LSM9DS1Class::state = scale;
   switch (scale) {
