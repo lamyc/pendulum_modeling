@@ -2,9 +2,15 @@ import serial
 import time
 import os
 import traceback
-from tqdm import tqdm
+from adaptOS import get_nano_port
 
-def export_measurements(elapsed_time, num_measurements, port_path, dir_path, baud=9600, timeout=1):
+def export_measurements(
+        elapsed_time, 
+        num_measurements, 
+        dir_path,
+        port_path=get_nano_port(), 
+        baud=9600, 
+        timeout=1):
     '''
     Read serial data for an given time from Arduino and export to a tsv.
 
@@ -12,8 +18,10 @@ def export_measurements(elapsed_time, num_measurements, port_path, dir_path, bau
     ------------
     elapsed_time: float or int
                 elapsed time for reading the serial print, in seconds.
-    port_path: string
-                path to the Arduino port.
+    dir_path: string
+                path to directory storing serial readings.
+    port_path: string, optional
+                path to the Arduino port, default to nano 33 ble port path.
     baud: int, optional
                 baud rate of the serial communication.
     timeout: int, optional
@@ -25,7 +33,9 @@ def export_measurements(elapsed_time, num_measurements, port_path, dir_path, bau
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
-    for i in tqdm(range(num_measurements)):
+    estimated_time = elapsed_time*num_measurements
+
+    for i in range(num_measurements):
         file_path = os.path.join(dir_path, 'trial%d.tsv'%i)
         try:
             mytsv = open(file_path, 'w')
@@ -39,13 +49,16 @@ def export_measurements(elapsed_time, num_measurements, port_path, dir_path, bau
         if timeout is None:
             raise Exception('timeout must be specified.')
 
-        print('starting trial (%d/%d)'%(i+1, num_measurements))
+        print('starting trial (%d/%d), ETA: %.2f seconds'%
+                (i+1,
+                num_measurements, 
+                (num_measurements-i)*elapsed_time))
+
         start = time.perf_counter()
         with serial.Serial(port_path, baud, timeout=timeout) as ser:
             while (time.perf_counter() - start < elapsed_time):
                 line = ser.readline()
                 mytsv.write(line.decode('UTF-8'))
-
         mytsv.close()
     print("data logged successfully.")
 
@@ -73,6 +86,6 @@ def monitor(port_path, baud=9600, timeout=1):
 
 
 if __name__=="__main__":
-    export_measurements(1200, 24, "/dev/ttyACM0", "../../nano_33/measurements/50Hz")
+    export_measurements(10, 2, "../../nano_33/measurements/test")
     # monitor("/dev/ttyS4")
     pass
