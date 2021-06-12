@@ -24,40 +24,24 @@ int degreesZ = 0;
 unsigned long NewTime, OldTime, exact;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial);
-  Serial.println("Started");
 
   if (!IMU.begin()) {
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
-  IMU.setAccelerometerScale(0); // 0:2g, 1:4g, 2:8g, 3:16g
+  IMU.setAccelerometerScale(0); // 0:2g, 1:4g, 2:8g, 3:16g, at 952Hz
   
-  Serial.print("Accelerometer sample rate = ");
-  Serial.print(IMU.accelerationSampleRate());
-  Serial.println("Hz");
-  Serial.println();
-  Serial.println("Acceleration in G's");
-  Serial.println("Time\tX\tY\tZ");
-  OldTime = millis();
 }
 
 void loop() {
-  NewTime = millis();
-  
-  if (NewTime - OldTime >= 20) {
-    if (IMU.accelerationAvailable()) {
-      IMU.readAcceleration(x, y, z); //output x, y, z acceleration in terms of g.
-    }
-  exact = millis();
-  Serial.print(exact);
-  Serial.print('\t');
-  Serial.print(x,8);
-  Serial.print('\t');
-  Serial.print(y,8);
-  Serial.print('\t');
-  Serial.println(z,8);
-  OldTime = NewTime;
+  if (IMU.accelerationAvailable()) {
+    IMU.readAcceleration(x, y, z); //output x, y, z acceleration in terms of g.
+    Serial.print(x,8);
+    Serial.print(',');
+    Serial.print(y,8);
+    Serial.print(',');
+    Serial.println(z,8);
   }
 }

@@ -111,16 +111,16 @@ void LSM9DS1Class::setAccelerometerScale(int scale)
     LSM9DS1Class::state = scale;
     switch (scale) {
         case 0:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0x60); // 119 Hz, 2G
+            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xC0); // 952 Hz, 2G
             break;
         case 1:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0x70); // 119 Hz, 4G
+            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xD0); // 952 Hz, 4G
             break;
         case 2:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0x78); // 119 Hz, 8G
+            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xD8); // 952 Hz, 8G
             break;
         case 3:
-            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0x68); // 119 Hz, 16G
+            writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xC8); // 952 Hz, 16G
             break;
     }
 

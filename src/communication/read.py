@@ -6,10 +6,10 @@ from adaptOS import get_nano_port
 
 def export_measurements(
         elapsed_time, 
-        num_measurements, 
         dir_path,
+        filename,
         port_path=get_nano_port(), 
-        baud=9600, 
+        baud=115200, 
         timeout=1):
     '''
     Read serial data for an given time from Arduino and export to a tsv.
@@ -33,36 +33,30 @@ def export_measurements(
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
-    estimated_time = elapsed_time*num_measurements
+    file_path = os.path.join(dir_path, filename)
+    try:
+        mycsv = open(file_path, 'w')
+    except IOError:
+        print("failed to open file")
+        traceback.print_exc()
+    except:
+        print(repr(Exception))
+        traceback.print_exc()
 
-    for i in range(num_measurements):
-        file_path = os.path.join(dir_path, 'trial%d.tsv'%i)
-        try:
-            mytsv = open(file_path, 'w')
-        except IOError:
-            print("failed to open file")
-            traceback.print_exc()
-        except:
-            print(repr(Exception))
-            traceback.print_exc()
+    if timeout is None:
+        raise Exception('timeout must be specified.')
 
-        if timeout is None:
-            raise Exception('timeout must be specified.')
+    print('starting trial, ETA: %.2f seconds'%elapsed_time)
 
-        print('starting trial (%d/%d), ETA: %.2f seconds'%
-                (i+1,
-                num_measurements, 
-                (num_measurements-i)*elapsed_time))
-
-        start = time.perf_counter()
-        with serial.Serial(port_path, baud, timeout=timeout) as ser:
-            while (time.perf_counter() - start < elapsed_time):
-                line = ser.readline()
-                mytsv.write(line.decode('UTF-8'))
-        mytsv.close()
+    start = time.perf_counter()
+    with serial.Serial(port_path, baud, timeout=timeout) as ser:
+        while (time.perf_counter() - start < elapsed_time):
+            line = ser.readline()
+            mycsv.write(line.decode('UTF-8'))
+    mycsv.close()
     print("data logged successfully.")
 
-def monitor(port_path, baud=9600, timeout=1):
+def monitor(port_path, baud=115200, timeout=1):
     '''
     Read serial data indefinitely from Arduino device.
 
@@ -86,6 +80,6 @@ def monitor(port_path, baud=9600, timeout=1):
 
 
 if __name__=="__main__":
-    export_measurements(10, 2, "../../nano_33/measurements/test")
+    export_measurements(60*60*8, "../../nano_33/measurements", "50Hz_2g.csv")
     # monitor("/dev/ttyS4")
     pass
