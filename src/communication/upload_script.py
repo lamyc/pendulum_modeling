@@ -23,9 +23,7 @@ def upload(file_path, port=get_nano_port(), timeout=60):
     if ret.returncode == 0:
         print("success:",ret)
     else:
-        print("error:",ret)
-
-
+        raise Exception("error:",ret)
 
 if __name__ == "__main__":
     fpath = os.path.join("nano_33", "script", "ReadAccelerometer",

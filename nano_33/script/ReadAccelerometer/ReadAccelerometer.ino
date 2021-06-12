@@ -24,8 +24,7 @@ int degreesZ = 0;
 unsigned long NewTime, OldTime, exact;
 
 void setup() {
-  Serial.begin(115200);
-  while (!Serial);
+  Serial.begin(2000000);
 
   if (!IMU.begin(0)) // 0:2g, 1:4g, 2:8g, 3:16g, at 952Hz
   { 
@@ -38,6 +37,9 @@ void setup() {
 void loop() {
   if (IMU.accelerationAvailable()) {
     IMU.readAcceleration(x, y, z); //output x, y, z acceleration in terms of g.
+//    exact = micros();
+//    Serial.print(exact);
+//    Serial.print(',');
     Serial.print(x,8);
     Serial.print(',');
     Serial.print(y,8);
