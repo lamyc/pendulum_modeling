@@ -85,7 +85,7 @@ int LSM9DS1Class::begin(int scale)
       case 3:
           writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0xC8); // 952 Hz, 16G
           break;
-
+  }
   writeRegister(LSM9DS1_ADDRESS_M, LSM9DS1_CTRL_REG1_M, 0xb4); // Temperature compensation enable, medium performance, 20 Hz
   writeRegister(LSM9DS1_ADDRESS_M, LSM9DS1_CTRL_REG2_M, 0x00); // 4 Gauss
   writeRegister(LSM9DS1_ADDRESS_M, LSM9DS1_CTRL_REG3_M, 0x00); // Continuous conversion mode
@@ -118,13 +118,6 @@ void LSM9DS1Class::end()
   writeRegister(LSM9DS1_ADDRESS, LSM9DS1_CTRL_REG6_XL, 0x00);
 
   _wire->end();
-}
-
-void LSM9DS1Class::setAccelerometerScale(int scale)
-{
-
-    }
-
 }
 
 int LSM9DS1Class::readAcceleration(float& x, float& y, float& z)

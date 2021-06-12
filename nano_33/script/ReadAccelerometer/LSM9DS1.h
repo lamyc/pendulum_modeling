@@ -35,7 +35,6 @@ class LSM9DS1Class {
 
     // Accelerometer
     int state;
-    virtual void setAccelerometerScale(int scale); // scale can be 0:±2g; 1:±4 g; 2: 8 g; 3: ±16 g
     virtual int readAcceleration(float& x, float& y, float& z); // Results are in G (earth gravity).
     virtual int accelerationAvailable(); // Number of samples in the FIFO.
     virtual float accelerationSampleRate(); // Sampling rate of the sensor.

@@ -1,6 +1,6 @@
 import subprocess
 import os
-from adaptOS import get_nano_port
+from .adaptOS import get_nano_port
 
 def upload(file_path, port=get_nano_port(), timeout=60):
     '''function to upload .ino script to chip within python
@@ -28,7 +28,7 @@ def upload(file_path, port=get_nano_port(), timeout=60):
 
 
 if __name__ == "__main__":
-    fpath = os.path.join("..","..", "nano_33", "script", "ReadAccelerometer",
+    fpath = os.path.join("nano_33", "script", "ReadAccelerometer",
             "ReadAccelerometer.ino")
-    upload(fpath, "/dev/ttyACM0")
-
+    upload(fpath)
+    pass
