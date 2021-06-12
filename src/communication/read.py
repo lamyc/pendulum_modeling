@@ -81,6 +81,6 @@ def monitor(port_path, baud=115200, timeout=1):
 
 
 if __name__=="__main__":
-    export_measurements(60*60, "nano_33/measurements", "952Hz_2g.csv")
+    export_measurements(60*60*8, "nano_33/measurements", "119Hz_2g.csv")
     # monitor("/dev/ttyS4")
     pass
