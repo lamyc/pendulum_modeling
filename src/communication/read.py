@@ -69,6 +69,6 @@ def monitor(port_path, baud=9600, timeout=1):
             print(line.decode('UTF-8'), end='')
 
 if __name__=="__main__":
-    read_serial(200, 20, "/dev/ttyS4", "nano_33/measurements/50Hz")
+    export_measurements(1200, 24, "/dev/ttyACM0", "../../nano_33/measurements/50Hz")
     # monitor("/dev/ttyS4")
     pass
